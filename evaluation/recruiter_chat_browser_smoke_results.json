@@ -1,0 +1,19 @@
+{
+  "generalScope": true,
+  "evaluation": true,
+  "product": true,
+  "salaryRefusal": true,
+  "corpusCitations": 3,
+  "roleSearchCitations": 3,
+  "roleSearchBasis": true,
+  "corpusSource": true,
+  "deepLink": true,
+  "runScope": true,
+  "runNeedsCandidate": true,
+  "pythonKind": "AI DRAFT — VERIFY IN SOURCE",
+  "pythonOnly": true,
+  "followupScope": true,
+  "comparisonCitations": 2,
+  "score": true,
+  "mobileFits": true
+}

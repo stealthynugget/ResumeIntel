@@ -1,0 +1,92 @@
+import { chromium } from 'playwright'
+import { resolve } from 'node:path'
+import { writeFileSync } from 'node:fs'
+
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true })
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+const email = `quality-${Date.now()}@example.test`
+const password = `Long-test-${crypto.randomUUID()}!`
+const result = {}
+try {
+  await page.goto('http://127.0.0.1:5173/dashboard', { waitUntil: 'networkidle' })
+  await page.getByRole('button', { name: /Create an account/ }).click()
+  await page.getByLabel('Display name').fill('Quality Reviewer')
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password').fill(password)
+  await page.getByRole('button', { name: 'Create account' }).click()
+  await page.getByRole('heading', { name: /Recruiting, with the source/ }).waitFor()
+  result.dashboardCount = await page.locator('.metric-card.accent strong').innerText()
+  result.dashboardScope = await page.locator('.metric-card.accent small').innerText()
+  result.sourceTypes = await page.locator('.metric-card').nth(1).innerText()
+  result.latencyLabel = await page.locator('.metric-card').nth(2).innerText()
+  await page.getByRole('button', { name: 'Evaluation' }).click()
+  await page.getByRole('heading', { name: /What the ranking evidence shows/ }).waitFor()
+  result.evaluationScope = await page.locator('.section-intro').innerText()
+  result.evaluationCards = await page.locator('.eval-card').count()
+  result.hrRegressionVisible = (await page.locator('.disclosure').innerText()).includes('0.376 versus 0.419')
+  await page.getByRole('button', { name: 'Match workbench' }).click()
+  await page.getByRole('button', { name: 'Analyze role' }).click()
+  await page.getByText('Python', { exact: true }).first().waitFor()
+  await page.getByRole('button', { name: /Run candidate match/ }).click()
+  await page.getByText('Top 10 of 30 analyzed').waitFor({ timeout: 60000 })
+  result.matchCandidates = await page.locator('.candidate-card').count()
+  await page.getByRole('button', { name: /Run candidate match/ }).click()
+  await page.locator('.progress').waitFor({ state: 'hidden', timeout: 60000 })
+  await page.getByRole('button', { name: 'AI Chat' }).click()
+  await page.getByRole('heading', { name: 'Ask the evidence.' }).waitFor()
+  await page.getByRole('button', { name: 'New conversation' }).click()
+  const convoList = await (await page.request.get('http://127.0.0.1:5173/api/chat/conversations')).json()
+  const convoId = convoList[0].id
+  const picker = await page.getByLabel('Matched candidate').locator('option:checked').innerText()
+  result.candidatePicker = picker
+  result.candidateHeader = await page.locator('.chat-main .surface-heading h2').innerText()
+  result.candidateCategory = await page.locator('.chat-main .surface-heading p').innerText()
+  await page.getByLabel('Question about this candidate and role').fill('What Python evidence supports this candidate?')
+  await page.getByRole('button', { name: 'Ask', exact: true }).click()
+  await page.locator('.chat-message.assistant').first().waitFor({ timeout: 60000 })
+  result.pythonKind = await page.locator('.chat-message.assistant').first().locator('span').first().innerText()
+  const citations = page.locator('.chat-message.assistant').first().locator('.citation-list button')
+  result.pythonCitationCount = await citations.count()
+  result.pythonOnly = result.pythonCitationCount > 0 && (await citations.allInnerTexts()).every(value => value.includes('Python') && !value.includes('SQL'))
+  const conversation = await (await page.request.get(`http://127.0.0.1:5173/api/chat/conversations/${convoId}`)).json()
+  const cite = conversation.messages.at(-1).citations[0]
+  const source = await (await page.request.get(`http://127.0.0.1:5173/api/candidates/${conversation.candidate_id}/source`)).json()
+  const span = source.spans.find(item => item.id === cite.span_id)
+  await page.route('**/api/candidates/*/source', async route => { await new Promise(resolve => setTimeout(resolve, 350)); await route.continue() })
+  await citations.first().click()
+  const dialog = page.getByRole('dialog', { name: 'Resume source passage' })
+  await dialog.waitFor()
+  result.dialogLoading = await dialog.getByRole('status').isVisible()
+  await dialog.locator('mark').waitFor()
+  result.exactSpan = await dialog.locator('mark').innerText() === source.text.slice(span.start_offset, span.end_offset)
+  await page.keyboard.press('Escape')
+  await page.getByLabel('Question about this candidate and role').fill('What salary does this candidate expect?')
+  await page.getByRole('button', { name: 'Ask', exact: true }).click()
+  await page.locator('.chat-message.assistant').nth(1).waitFor()
+  result.unsupportedKind = await page.locator('.chat-message.assistant').nth(1).locator('span').first().innerText()
+  result.unsupportedCitations = await page.locator('.chat-message.assistant').nth(1).locator('.citation-list button').count()
+  await page.screenshot({ path: resolve('../output/quality-browser-chat.png'), fullPage: true })
+  const runPicker = page.getByLabel('Saved match run')
+  const previousRun = await runPicker.inputValue()
+  const otherRun = await runPicker.locator('option').evaluateAll((items, previous) => items.map(item => item.value).find(value => value && value !== previous), previousRun)
+  await page.route(`**/api/match-runs/${otherRun}`, async route => { await new Promise(resolve => setTimeout(resolve, 450)); await route.continue() })
+  await runPicker.selectOption(otherRun)
+  result.staleCandidateDisabled = await page.getByLabel('Matched candidate').isDisabled() && await page.getByRole('button', { name: 'New conversation' }).isDisabled()
+  await page.waitForFunction(() => !document.querySelector('select[aria-label="Matched candidate"]')?.hasAttribute('disabled'))
+  await page.setViewportSize({ width: 390, height: 844 })
+  result.mobileChatFits = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 2)
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click()
+  result.mobileDashboardFits = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 2)
+  await page.getByRole('button', { name: 'Evaluation' }).click()
+  result.mobileEvaluationFits = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 2)
+  await page.screenshot({ path: resolve('../output/quality-browser-mobile.png'), fullPage: true })
+  if (result.dashboardCount !== '2,481' || !result.sourceTypes.includes('CSV') || result.sourceTypes.includes('PDF') ||
+      !result.latencyLabel.includes('MEAN OF ROLE MEDIANS') || result.evaluationCards !== 3 || !result.hrRegressionVisible ||
+      result.matchCandidates !== 10 || result.pythonKind !== 'AI DRAFT — VERIFY IN SOURCE' || !result.pythonOnly || !result.dialogLoading || !result.exactSpan ||
+      result.unsupportedKind !== 'EVIDENCE-ONLY FALLBACK' || result.unsupportedCitations !== 0 || !result.staleCandidateDisabled ||
+      !result.mobileChatFits || !result.mobileDashboardFits || !result.mobileEvaluationFits) throw new Error(JSON.stringify(result))
+  writeFileSync(resolve('../evaluation/quality_browser_smoke_results.json'), JSON.stringify(result, null, 2) + '\n')
+  console.log(JSON.stringify(result, null, 2))
+} finally {
+  await browser.close()
+}

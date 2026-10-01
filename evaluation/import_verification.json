@@ -1,0 +1,33 @@
+{
+  "source_rows": 2484,
+  "import_job_id": 1,
+  "outcomes": {
+    "duplicate": 242,
+    "imported": 2241,
+    "invalid": 1
+  },
+  "candidates": 2485,
+  "spans": 22917,
+  "fts_rows": 22917,
+  "bad_offsets": 0,
+  "exact_source_documents": 2481,
+  "searched_examples": {
+    "INFORMATION-TECHNOLOGY": {
+      "candidate_id": 3,
+      "span_id": 16,
+      "term": "Active Directory"
+    },
+    "HR": {
+      "candidate_id": 25,
+      "span_id": 193,
+      "term": "recruitment"
+    },
+    "ENGINEERING": {
+      "candidate_id": 90,
+      "span_id": 704,
+      "term": "Python"
+    }
+  },
+  "import_seconds": 66.67,
+  "peak_process_rss_mb": 1899.9
+}

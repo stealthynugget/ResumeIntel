@@ -1,0 +1,17 @@
+{
+  "protectedRoute": true,
+  "signup": true,
+  "dashboardCorpus": "2,484",
+  "evaluationCards": 3,
+  "hrDisclosure": "Read these results as exploratory. 18-candidate pools per role, selected from keyword and hybrid results plus nonmatches; graded by the implementer after viewing output. The labels are implementer-judged. The HR Analyst hybrid nDCG@5 falls below keyword: 0.376 versus 0.419. Exploratory relevance checks only; not hiring accuracy or fairness validation.",
+  "matchCandidates": 10,
+  "reviewFallback": true,
+  "chatFallback": true,
+  "chatCitations": 1,
+  "exactSourceHighlight": 1,
+  "accountPage": true,
+  "signin": true,
+  "historyAfterLogin": 1,
+  "mobileChatFits": true,
+  "mobileWorkbenchFits": true
+}

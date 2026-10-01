@@ -1,0 +1,8 @@
+run_id,candidate_id,requirement,saved_status,manual_observation,manual_judgment,span_id,scope_note
+80,1823,Python,matched,"Qualifications passage says modelling using Python/Pandas and web scraping using Python; this is a resume mention, not verified work depth.",appropriate_as_mention,16652,Implementer review of saved span
+80,1823,SQL,matched,"Qualifications passage lists databases including Microsoft SQL; a list does not verify applied SQL experience.",appropriate_as_mention,16652,Implementer review of saved span
+80,1823,Machine learning,matched,"Education passage describes a current student-success clustering and predictive-modeling project.",appropriate_as_project_mention,16658,Implementer review of saved span
+80,1823,3 years experience,no_evidence,"Saved result has no duration citation; teaching and project passages do not establish three years of relevant experience.",conservative,,Implementer review of saved result and selected passages
+80,1450,3 years experience,no_evidence,"Programming-language list states Python 3+ years and SQL 4+ years; these are skill durations, not proof of three years of relevant employment.",conservative,13307,Implementer review of saved span
+80,1441,Machine learning,no_evidence,"A different cited passage says a Random Forest model was built and deployed with Python; the machine-learning label was missed by the exact-phrase matcher.",possible_false_negative,13227,Implementer review of saved span; algorithm-equivalence requires human review
+80,1340,3 years experience,needs_review,"Summary states more than six years in the software industry; relevance and overlap with the Data Scientist role still need review.",appropriate_uncertainty,12296,Implementer review of saved span

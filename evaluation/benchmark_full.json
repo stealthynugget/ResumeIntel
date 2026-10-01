@@ -1,0 +1,131 @@
+[
+  {
+    "role": "data_scientist",
+    "job_id": 45,
+    "run_id": 49,
+    "retrieved": 30,
+    "cold_retrieval_ms": 37891.3,
+    "warm_retrieval_ms": [
+      64.2,
+      63.7,
+      63.4,
+      63.3,
+      66.7
+    ],
+    "warm_median_ms": 63.7,
+    "full_match_ms": 270.4,
+    "top_five": [
+      {
+        "candidate_id": 1823,
+        "match_index": 72.2,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 544,
+        "match_index": 67.9,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 1450,
+        "match_index": 65.0,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 1441,
+        "match_index": 63.7,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 844,
+        "match_index": 62.7,
+        "mandatory_status": "incomplete"
+      }
+    ]
+  },
+  {
+    "role": "it_infrastructure_engineer",
+    "job_id": 46,
+    "run_id": 50,
+    "retrieved": 30,
+    "cold_retrieval_ms": 70.3,
+    "warm_retrieval_ms": [
+      62.4,
+      61.5,
+      61.1,
+      64.0,
+      61.4
+    ],
+    "warm_median_ms": 61.5,
+    "full_match_ms": 225.1,
+    "top_five": [
+      {
+        "candidate_id": 180,
+        "match_index": 95.1,
+        "mandatory_status": "satisfied"
+      },
+      {
+        "candidate_id": 495,
+        "match_index": 89.8,
+        "mandatory_status": "satisfied"
+      },
+      {
+        "candidate_id": 1309,
+        "match_index": 84.3,
+        "mandatory_status": "satisfied"
+      },
+      {
+        "candidate_id": 1274,
+        "match_index": 83.6,
+        "mandatory_status": "satisfied"
+      },
+      {
+        "candidate_id": 740,
+        "match_index": 83.4,
+        "mandatory_status": "incomplete"
+      }
+    ]
+  },
+  {
+    "role": "hr_analyst",
+    "job_id": 47,
+    "run_id": 51,
+    "retrieved": 30,
+    "cold_retrieval_ms": 96.7,
+    "warm_retrieval_ms": [
+      93.4,
+      91.6,
+      90.5,
+      89.7,
+      89.4
+    ],
+    "warm_median_ms": 90.5,
+    "full_match_ms": 253.5,
+    "top_five": [
+      {
+        "candidate_id": 889,
+        "match_index": 66.5,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 84,
+        "match_index": 65.9,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 193,
+        "match_index": 60.0,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 314,
+        "match_index": 59.1,
+        "mandatory_status": "incomplete"
+      },
+      {
+        "candidate_id": 544,
+        "match_index": 59.1,
+        "mandatory_status": "incomplete"
+      }
+    ]
+  }
+]

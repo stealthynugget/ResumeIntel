@@ -1,0 +1,44 @@
+[
+  {
+    "job": "data_scientist",
+    "method": "keyword",
+    "pool_size": 18,
+    "precision_at_5": 0.8,
+    "ndcg_at_5": 0.801
+  },
+  {
+    "job": "data_scientist",
+    "method": "hybrid",
+    "pool_size": 18,
+    "precision_at_5": 1.0,
+    "ndcg_at_5": 0.948
+  },
+  {
+    "job": "it_infrastructure_engineer",
+    "method": "keyword",
+    "pool_size": 18,
+    "precision_at_5": 0.6,
+    "ndcg_at_5": 0.468
+  },
+  {
+    "job": "it_infrastructure_engineer",
+    "method": "hybrid",
+    "pool_size": 18,
+    "precision_at_5": 1.0,
+    "ndcg_at_5": 0.925
+  },
+  {
+    "job": "hr_analyst",
+    "method": "keyword",
+    "pool_size": 18,
+    "precision_at_5": 0.4,
+    "ndcg_at_5": 0.419
+  },
+  {
+    "job": "hr_analyst",
+    "method": "hybrid",
+    "pool_size": 18,
+    "precision_at_5": 0.4,
+    "ndcg_at_5": 0.376
+  }
+]

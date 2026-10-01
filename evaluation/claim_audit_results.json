@@ -1,0 +1,15 @@
+{
+  "claims_reviewed": 15,
+  "quotes_checked": 14,
+  "quote_integrity_failures": [],
+  "semantic_judgments": {
+    "supports_requirement": 10,
+    "correctly_uncertain": 4,
+    "mention_only": 1
+  },
+  "status_counts": {
+    "matched": 11,
+    "needs_review": 3,
+    "no_evidence": 1
+  }
+}

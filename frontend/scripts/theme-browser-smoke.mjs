@@ -1,0 +1,188 @@
+import { chromium } from 'playwright'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+const base = process.env.RESUMEINTEL_BROWSER_URL || 'http://127.0.0.1:5173'
+const output = resolve('../output/design_qa/after')
+const reportOutput = resolve('../output/pdf')
+mkdirSync(output, { recursive: true })
+mkdirSync(reportOutput, { recursive: true })
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true })
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, colorScheme: 'light' })
+const errors = []
+const checks = []
+page.on('pageerror', error => errors.push(error.message))
+const password = `Visual-qa-${crypto.randomUUID()}!`
+const email = `visual-qa-${Date.now()}@example.test`
+
+async function theme(value) {
+  await page.getByLabel('Appearance theme').selectOption(value)
+  const expected = value === 'system' ? 'light' : value
+  await page.waitForFunction(mode => document.documentElement.dataset.theme === mode, expected)
+  checks.push(`theme ${value}`)
+}
+async function capture(name, width, mode, fullPage = false) {
+  await page.setViewportSize({ width, height: width === 390 ? 844 : 900 })
+  await theme(mode)
+  await page.evaluate(() => scrollTo(0, 0))
+  const layout = await page.evaluate(() => {
+    const header = document.querySelector('.product-header')
+    const main = document.querySelector('#main-content')
+    return {
+      overflow: document.documentElement.scrollWidth - innerWidth,
+      headerBottom: header?.getBoundingClientRect().bottom ?? 0,
+      mainTop: main?.getBoundingClientRect().top ?? 0,
+      mode: document.documentElement.dataset.theme,
+      themeColor: document.querySelector('meta[name="theme-color"]')?.content,
+    }
+  })
+  if (layout.overflow > 2) throw new Error(`${name} ${width} ${mode}: page overflow ${layout.overflow}px`)
+  if (layout.headerBottom > layout.mainTop + 1) throw new Error(`${name} ${width} ${mode}: header covers main`)
+  if (layout.themeColor !== (mode === 'dark' ? '#171f1d' : '#f4f6f2')) throw new Error(`${name} ${width} ${mode}: browser theme color did not update`)
+  await page.screenshot({ path: resolve(output, `${name}-${mode}-${width}.png`), fullPage })
+  checks.push(`${name} ${mode} ${width}: no page overflow; header clear`)
+}
+async function sweep(name, fullPage = false) {
+  for (const mode of ['light', 'dark']) for (const width of [1440, 768, 390]) await capture(name, width, mode, fullPage && width !== 768)
+}
+
+try {
+  await page.goto(`${base}/signin`, { waitUntil: 'networkidle' })
+  if (await page.getByLabel('Appearance theme').inputValue() !== 'system') throw new Error('OS theme is not the initial preference')
+  await page.getByLabel('Appearance theme').focus()
+  await page.keyboard.press('End')
+  await page.waitForFunction(() => document.documentElement.dataset.theme === 'dark')
+  await page.keyboard.press('Home')
+  await page.waitForFunction(() => document.documentElement.dataset.theme === 'light')
+  checks.push('Appearance select works with keyboard')
+  await sweep('signin')
+  await page.getByLabel('Email').fill('unknown@example.test')
+  await page.getByLabel('Password').fill('wrong-password')
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click()
+  await page.getByRole('alert').waitFor()
+  await capture('signin-error', 390, 'dark')
+  await page.getByRole('button', { name: /Create an account/ }).click()
+  await page.getByLabel('Display name').waitFor()
+  await sweep('signup')
+  await page.getByLabel('Display name').fill('Visual QA')
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password').fill(password)
+  await page.getByRole('button', { name: 'Create account' }).click()
+  await page.getByRole('heading', { name: /Recruiting, with the source/ }).waitFor()
+  await sweep('dashboard', true)
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.getByRole('button', { name: 'Match workbench' }).click()
+  await page.getByRole('button', { name: 'Analyze role' }).click()
+  await page.getByText('Python', { exact: true }).first().waitFor()
+  await theme('light')
+  await page.evaluate(() => scrollTo(0, 0))
+  const slowMatch = async route => { await new Promise(resolve => setTimeout(resolve, 1200)); await route.continue() }
+  await page.route('**/api/jobs/*/matches', slowMatch)
+  await page.getByRole('button', { name: /Run candidate match/ }).click()
+  await page.locator('.progress').waitFor()
+  await page.evaluate(() => scrollTo(0, 0))
+  await page.screenshot({ path: resolve(output, 'match-loading-light-1440.png') })
+  checks.push('Match loading state visible')
+  await page.getByText('Top 10 of 30 analyzed').waitFor({ timeout: 90000 })
+  await page.unroute('**/api/jobs/*/matches', slowMatch)
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download findings PDF' }).click()
+  const download = await downloadPromise
+  const reportPath = resolve(reportOutput, 'browser-downloaded-findings.pdf')
+  await download.saveAs(reportPath)
+  if (readFileSync(reportPath).subarray(0, 5).toString() !== '%PDF-') throw new Error('Downloaded findings are not a PDF')
+  checks.push('owner downloaded saved-run findings PDF through UI')
+  await page.getByRole('button', { name: 'Generate brief' }).click()
+  await page.getByText('Supported requirements', { exact: true }).waitFor({ timeout: 60000 })
+  await sweep('match-populated', true)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await theme('dark')
+  await page.locator('.results-pane').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: resolve(output, 'match-ranked-dark-390.png') })
+  await page.locator('.ai-review').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: resolve(output, 'match-brief-dark-390.png') })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await theme('dark')
+  await page.locator('.compare-check input').nth(0).check()
+  await page.locator('.compare-check input').nth(1).check()
+  await page.getByRole('button', { name: 'Compare selected (2/2)' }).click()
+  await page.getByRole('dialog', { name: 'Candidate comparison' }).waitFor()
+  await capture('comparison', 1440, 'dark')
+  await capture('comparison', 390, 'light')
+  const compareTable = page.getByRole('region', { name: 'Candidate comparison table' })
+  await compareTable.focus()
+  for (let index = 0; index < 6; index++) await page.keyboard.press('ArrowRight')
+  await page.waitForFunction(() => { const table = document.querySelector('.compare-table'); return table && table.scrollLeft >= table.scrollWidth - table.clientWidth - 2 })
+  await page.locator('.compare-modal').evaluate(element => { element.scrollTop = 0 })
+  await page.screenshot({ path: resolve(output, 'comparison-second-candidate-light-390.png') })
+  await page.keyboard.press('Tab')
+  if (!await page.evaluate(() => Boolean(document.activeElement?.closest('.compare-modal')))) throw new Error('Keyboard focus escaped comparison dialog')
+  checks.push('Comparison table scrolls by keyboard and focus stays in dialog')
+  await page.keyboard.press('Escape')
+  await page.getByRole('dialog', { name: 'Candidate comparison' }).waitFor({ state: 'hidden' })
+  checks.push('comparison closes with Escape')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.locator('.detail-pane .evidence-link').first().click()
+  await page.locator('.active-source').waitFor()
+  await capture('match-source', 1440, 'light')
+
+  await page.getByRole('button', { name: /Ask about this candidate in Chat/ }).click()
+  await page.getByRole('heading', { name: 'Ask the evidence.' }).waitFor()
+  await page.waitForFunction(() => Boolean(document.querySelector('select[aria-label="Matched candidate"]')?.value))
+  await page.getByLabel('Your question').fill('Why was this candidate matched with the role?')
+  await page.getByRole('button', { name: 'Ask', exact: true }).click()
+  await page.locator('.chat-message.assistant .citation-list button').first().waitFor({ timeout: 60000 })
+  await sweep('chat-conversation')
+  await page.setViewportSize({ width: 390, height: 844 })
+  await theme('dark')
+  await page.locator('.chat-main').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: resolve(output, 'chat-thread-dark-390.png') })
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.locator('.chat-message.assistant .citation-list button').first().click()
+  const dialog = page.getByRole('dialog', { name: 'Resume source passage' })
+  await dialog.locator('mark').waitFor()
+  await capture('chat-source', 1440, 'light')
+  await capture('chat-source', 390, 'dark')
+  await page.keyboard.press('Escape')
+  await dialog.waitFor({ state: 'hidden' })
+  checks.push('exact source dialog highlights span and closes with Escape')
+
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.getByRole('button', { name: 'Evaluation' }).click()
+  await page.getByText('0.376').first().waitFor()
+  await page.getByText('144/144').waitFor()
+  await page.getByText('2,484 indexed candidates', { exact: false }).waitFor()
+  await page.getByRole('heading', { name: 'Keyword versus hybrid' }).waitFor()
+  await sweep('evaluation', true)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await theme('dark')
+  for (const name of ['Live category coverage table', 'Saved category label proxy table']) {
+    const table = page.getByRole('region', { name })
+    await table.focus()
+    await page.keyboard.press('ArrowRight')
+    if (await table.evaluate(element => element.scrollLeft) <= 0) throw new Error(`${name} did not scroll with keyboard`)
+    checks.push(`${name} scrolls with keyboard`)
+  }
+  await page.screenshot({ path: resolve(output, 'evaluation-table-keyboard-dark-390.png') })
+  await page.getByRole('button', { name: 'Dashboard', exact: true }).click()
+  await page.getByRole('heading', { name: /Recruiting, with the source/ }).waitFor()
+  await sweep('dashboard-final')
+  await page.locator('.account-button').click()
+  await page.getByRole('heading', { name: 'Profile & security.' }).waitFor()
+  await sweep('account')
+  await theme('system')
+  await page.emulateMedia({ colorScheme: 'dark' })
+  await page.reload()
+  if (await page.evaluate(() => document.documentElement.dataset.theme) !== 'dark') throw new Error('System theme did not follow OS dark mode')
+  if (await page.getByLabel('Appearance theme').inputValue() !== 'system') throw new Error('System preference was not retained')
+  await page.emulateMedia({ colorScheme: 'light' })
+  await page.waitForFunction(() => document.documentElement.dataset.theme === 'light')
+  checks.push('System follows OS dark preference before render')
+  checks.push('System follows live OS theme changes')
+  if (errors.length) throw new Error(`Browser page errors: ${errors.join(' | ')}`)
+  writeFileSync(resolve(output, 'theme-browser-results.json'), JSON.stringify({ browser: 'Chrome', checks, pageErrors: errors }, null, 2) + '\n')
+  process.stdout.write(JSON.stringify({ browser: 'Chrome', checks: checks.length, pageErrors: errors.length, output }, null, 2) + '\n')
+} finally {
+  await browser.close()
+}

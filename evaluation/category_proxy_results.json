@@ -1,0 +1,295 @@
+{
+  "generated_utc": "2026-10-01T00:38:55.890055+00:00",
+  "shared_candidates": 2481,
+  "method": "Query each dataset category name against shared CSV resumes; score top five by exact dataset category label agreement. Binary category labels are weak proxies, not JD relevance judgments.",
+  "categories": [
+    {
+      "category": "ACCOUNTANT",
+      "candidate_count": 118,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "ADVOCATE",
+      "candidate_count": 118,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "AGRICULTURE",
+      "candidate_count": 63,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "APPAREL",
+      "candidate_count": 97,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "ARTS",
+      "candidate_count": 103,
+      "keyword": {
+        "precision_at_5": 0.2,
+        "ndcg_at_5": 0.17
+      },
+      "hybrid": {
+        "precision_at_5": 0.6,
+        "ndcg_at_5": 0.447
+      }
+    },
+    {
+      "category": "AUTOMOBILE",
+      "candidate_count": 36,
+      "keyword": {
+        "precision_at_5": 0.6,
+        "ndcg_at_5": 0.723
+      },
+      "hybrid": {
+        "precision_at_5": 0.6,
+        "ndcg_at_5": 0.723
+      }
+    },
+    {
+      "category": "AVIATION",
+      "candidate_count": 116,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "BANKING",
+      "candidate_count": 115,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.786
+      },
+      "hybrid": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.869
+      }
+    },
+    {
+      "category": "BPO",
+      "candidate_count": 22,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "BUSINESS-DEVELOPMENT",
+      "candidate_count": 119,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "CHEF",
+      "candidate_count": 118,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "CONSTRUCTION",
+      "candidate_count": 112,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "CONSULTANT",
+      "candidate_count": 115,
+      "keyword": {
+        "precision_at_5": 0.2,
+        "ndcg_at_5": 0.131
+      },
+      "hybrid": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.786
+      }
+    },
+    {
+      "category": "DESIGNER",
+      "candidate_count": 107,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.786
+      },
+      "hybrid": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.786
+      }
+    },
+    {
+      "category": "DIGITAL-MEDIA",
+      "candidate_count": 96,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "ENGINEERING",
+      "candidate_count": 118,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.854
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "FINANCE",
+      "candidate_count": 117,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.661
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "FITNESS",
+      "candidate_count": 117,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "HEALTHCARE",
+      "candidate_count": 115,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.786
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "HR",
+      "candidate_count": 110,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "INFORMATION-TECHNOLOGY",
+      "candidate_count": 120,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.869
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "PUBLIC-RELATIONS",
+      "candidate_count": 111,
+      "keyword": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      },
+      "hybrid": {
+        "precision_at_5": 1.0,
+        "ndcg_at_5": 1.0
+      }
+    },
+    {
+      "category": "SALES",
+      "candidate_count": 116,
+      "keyword": {
+        "precision_at_5": 0.4,
+        "ndcg_at_5": 0.553
+      },
+      "hybrid": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.854
+      }
+    },
+    {
+      "category": "TEACHER",
+      "candidate_count": 102,
+      "keyword": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.854
+      },
+      "hybrid": {
+        "precision_at_5": 0.8,
+        "ndcg_at_5": 0.869
+      }
+    }
+  ]
+}

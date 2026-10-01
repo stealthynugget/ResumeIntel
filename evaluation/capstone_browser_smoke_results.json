@@ -1,0 +1,16 @@
+{
+  "browser": "Chrome",
+  "flow": "signup → match → brief → chat → source → mobile",
+  "matchRun": true,
+  "structuredBrief": true,
+  "matchToChat": true,
+  "fiveExamples": true,
+  "ranked": true,
+  "conjunction": true,
+  "gaps": true,
+  "why": true,
+  "sourceHighlight": true,
+  "mandatory": true,
+  "mobileFits": true,
+  "evaluation": true
+}

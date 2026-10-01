@@ -1,0 +1,16 @@
+{
+  "initialCorpus": 2484,
+  "healthDuringImport": 200,
+  "importStatus": "Latest resume import\n2,484 / 2,484 rows\n0 new · 2,483 duplicate · 1 invalid · 0 failed\ncompleted · 2.69s\nReview 1 affected row(s)",
+  "requirements": 9,
+  "candidates": 10,
+  "sourceEvidence": 1,
+  "dialogRows": 10,
+  "focusOnOpen": "Close comparison",
+  "focusWrapped": "compare-evidence",
+  "escapeClosed": true,
+  "focusRestored": true,
+  "requirementEditClearedResults": true,
+  "jdEditClearedResults": true,
+  "jdEditClearedRequirements": true
+}

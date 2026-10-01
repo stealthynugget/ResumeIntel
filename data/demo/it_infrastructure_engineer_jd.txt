@@ -1,0 +1,6 @@
+IT Infrastructure Engineer
+Required qualifications
+Windows Server, Active Directory, VMware, Linux and network administration.
+Preferred qualifications
+AWS and SQL.
+Maintain reliable systems, troubleshoot incidents and document infrastructure changes for the team.

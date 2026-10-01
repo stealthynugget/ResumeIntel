@@ -1,0 +1,138 @@
+{
+  "corpus": {
+    "status": "ok",
+    "candidates": 2484,
+    "spans": 22915
+  },
+  "runs": [
+    {
+      "job": "data_scientist",
+      "job_id": 42,
+      "run_id": 46,
+      "requirements": 9,
+      "retrieved": 30,
+      "analyzed": 30,
+      "displayed": 10,
+      "citations_checked": 51,
+      "invalid_citations": [],
+      "top_five": [
+        {
+          "candidate_id": 1823,
+          "external_id": "12011623",
+          "match_index": 72.2,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 544,
+          "external_id": "18067556",
+          "match_index": 67.9,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 1450,
+          "external_id": "22946204",
+          "match_index": 65.0,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 1441,
+          "external_id": "18448085",
+          "match_index": 63.7,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 844,
+          "external_id": "14871762",
+          "match_index": 62.7,
+          "mandatory_status": "incomplete"
+        }
+      ]
+    },
+    {
+      "job": "it_infrastructure_engineer",
+      "job_id": 43,
+      "run_id": 47,
+      "requirements": 7,
+      "retrieved": 30,
+      "analyzed": 30,
+      "displayed": 10,
+      "citations_checked": 58,
+      "invalid_citations": [],
+      "top_five": [
+        {
+          "candidate_id": 180,
+          "external_id": "26291616",
+          "match_index": 95.1,
+          "mandatory_status": "satisfied"
+        },
+        {
+          "candidate_id": 495,
+          "external_id": "10089434",
+          "match_index": 89.8,
+          "mandatory_status": "satisfied"
+        },
+        {
+          "candidate_id": 1309,
+          "external_id": "14593060",
+          "match_index": 84.3,
+          "mandatory_status": "satisfied"
+        },
+        {
+          "candidate_id": 1274,
+          "external_id": "39441617",
+          "match_index": 83.6,
+          "mandatory_status": "satisfied"
+        },
+        {
+          "candidate_id": 740,
+          "external_id": "44115326",
+          "match_index": 83.4,
+          "mandatory_status": "incomplete"
+        }
+      ]
+    },
+    {
+      "job": "hr_analyst",
+      "job_id": 44,
+      "run_id": 48,
+      "requirements": 7,
+      "retrieved": 30,
+      "analyzed": 30,
+      "displayed": 10,
+      "citations_checked": 35,
+      "invalid_citations": [],
+      "top_five": [
+        {
+          "candidate_id": 889,
+          "external_id": "21866029",
+          "match_index": 66.5,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 84,
+          "external_id": "88907739",
+          "match_index": 65.9,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 193,
+          "external_id": "11847784",
+          "match_index": 60.0,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 314,
+          "external_id": "24508725",
+          "match_index": 59.1,
+          "mandatory_status": "incomplete"
+        },
+        {
+          "candidate_id": 544,
+          "external_id": "18067556",
+          "match_index": 59.1,
+          "mandatory_status": "incomplete"
+        }
+      ]
+    }
+  ]
+}

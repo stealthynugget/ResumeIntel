@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-30",
+  "model": "gpt-4o-mini",
+  "request": "Question about an existing matched candidate's Active Directory evidence; selected redacted excerpts only",
+  "result_kind": "llm_draft",
+  "validated_citations": 1,
+  "candidate_span_membership": "validated by server-side requirement/span allowlist",
+  "model_prose_displayed_after_validation": true,
+  "scores_or_statuses_modified": false,
+  "credential_recorded": false
+}

@@ -1,0 +1,6 @@
+Data Scientist
+We are seeking a data scientist with 3 years experience building useful models from messy data.
+Required: Python, SQL, machine learning, statistics and data analysis.
+Preferred: AWS, natural language processing, Tableau.
+You will communicate findings to stakeholders and maintain reliable data pipelines.
+

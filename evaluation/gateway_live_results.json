@@ -1,0 +1,20 @@
+{
+  "gateway_model": "gpt-4o-mini",
+  "candidate_id": 495,
+  "button_enabled": true,
+  "run_id": 64,
+  "candidate_rank": 2,
+  "live_http_status": 200,
+  "result_visible": true,
+  "response_format": "json_mode",
+  "first_cached": false,
+  "highlight_count": 3,
+  "summary_present": true,
+  "all_spans_owned": true,
+  "quotes_in_source": true,
+  "repeat_cached": true,
+  "score_unchanged": true,
+  "statuses_unchanged": true,
+  "affects_ranking": false,
+  "unavailable_error_visible": true
+}
